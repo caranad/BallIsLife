@@ -1,6 +1,1 @@
-Dino: 1.5
-John: 1.5
-Bill: 1.5
-James: 2
-Mayank: 3
-Kevin: 1
+SECRET
