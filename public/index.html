@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Welcome To BallIsLife</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel = "stylesheet" href = "css/style.css">
+</head>
+<body>
+    <div class = "ball_main_container">
+        <div class = "ball_main_header">
+            <a href = "/">Ball Is Life</a>
+        </div>
+
+        <div class = "ball_main_header_img">
+            <div class = "ball_main_header_text">
+                When ball is life but code is your future...
+                <br>
+                There's a web app to make ball teams smartly!
+            </div>
+        </div>
+
+        <div class = "ball_team_submit_form">
+            <h1>Upload a txt file with the list of players who are coming</h1>
+            <form action = "/upload" method = "POST" enctype = "multipart/form-data">
+                <input type = "file" name = "player_txt" placeholder = "Send a file with players">
+                <button type = "submit" class = "ball_btn submit">Submit</button>
+            </form>
+        </div>
+
+        <footer class = "ball_main_footer">
+            <p>Created with love by Christopher Aranadi</h1>
+        </footer>
+    </div>
+</body>
+</html>

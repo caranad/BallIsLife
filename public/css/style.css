@@ -1,0 +1,97 @@
+*
+{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+}
+
+.bold
+{
+    font-weight: bold;
+}
+
+.ball_btn
+{
+    border-radius: 5px;
+    border: 0;
+    padding: 15px;
+    font-size: 20px;
+}
+
+.ball_btn.submit
+{
+    background-color: black;
+    color: white;
+}
+
+.ball_main_container
+{
+    width: 100%;
+    min-height: 100%;
+}
+
+.ball_main_container .ball_main_header
+{
+    background-color: orange;
+    padding: 10px;
+    text-align: left;
+}
+
+.ball_main_container .ball_main_header a
+{
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.ball_main_container .ball_main_header_img
+{
+    background-image: url('https://static.pexels.com/photos/82321/sky-clouds-sunny-basket-82321.jpeg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height: 400px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ball_main_container .ball_main_header_text
+{
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
+
+.ball_main_container .ball_team_submit_form
+{
+    text-align: center;
+}
+
+.ball_preferences_container
+{
+    display: flex;
+}
+
+input[name='avoid']
+{
+    margin-bottom: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.ball_preferences_container .ball_teammates, .ball_preferences_container .ball_options
+{
+    flex: 1;
+}
+
+.ball_main_footer
+{
+    background-color: black;
+    padding: 10px;
+    color: white;
+}
