@@ -3,57 +3,20 @@ var handlebars = require('handlebars');
 var bodyParser = require('body-parser');
 var form = require('formidable');
 var fs = require('fs');
+var util = require('./util/utils');
 var app = express();
 
+// Class for Teams
+var Team = require('./models/team');
+
 var file_name = '';
+var players = '';
 
 var PORT = 5555;
 var DIR = __dirname + '/public';
 app.use(express.static(DIR));
 app.use(bodyParser());
 app.use(bodyParser.json());
-
-function generate_players(s)
-{
-    var players = [];
-    var items = s.split("\n");
-    for (var i = 0; i < items.length; i++)
-    {
-        players.push(items[i].substring(0, items[i].indexOf(":")));
-    }
-
-    return players;
-}
-
-/* I suck at recursion so I had to get this function from somewhere */
-function generate_combos(pl)
-{
-    var combos = [];
-
-    if (pl.length == 1)
-    {
-        return [pl];
-    }
-    else
-    {
-    	combos = generate_combos(pl.slice(1));
-    	return combos.concat(combos.map(e => e.concat(pl[0])), [[pl[0]]]);
-    }
-}
-
-function filter_combos(pl, m)
-{
-    var stringify_combos = [];
-    var combos = pl.filter(function(size) { return size.length == m});
-
-    for (var i = 0; i < combos.length; i++)
-    {
-        var players = combos[i];
-        stringify_combos.push(players.join());
-    }
-
-    return stringify_combos;
-}
 
 app.get('/', function(req, res)
 {
@@ -80,17 +43,19 @@ app.post('/upload', function(req, res)
     });
 });
 
+// Assume that the file is always in form for each line:
+// PLAYER_NAME: PLAYER_SKILL_LEVEL
 app.get('/upload', function(req, res)
 {
     res.writeHeader(200, {'Content-Type': 'text/html'});
     fs.readFile(file_name, function(err, data)
     {
-        var players = data.toString();
-        var pl = generate_players(players);
-        var co = generate_combos(pl);
-        var combos = filter_combos(co, pl.length / 2);
+        players = data.toString();
+        var pl = util.generate_players(players);
+        var co = util.generate_combos(pl);
+        var combos = util.filter_combos(co, pl.length / 2);
 
-        fs.readFile(DIR + '/results.html', function(err, data)
+        fs.readFile(DIR + '/prefs.html', function(err, data)
         {
             if (err) { res.sendStatus(200); }
             else
@@ -109,8 +74,75 @@ app.get('/upload', function(req, res)
 
 app.post('/results', function(req, res)
 {
-    var s = req.body;
-    res.send(s);
+    var avoid_combos = req.body.avoid;
+    var player_skills = util.mappify(players);
+    var team1 = new Team();
+    var team2 = new Team();
+
+    // Sort players by skill level
+    var sorted = [];
+    for (var key in player_skills)
+    {
+        var z = {};
+        z["name"] = key;
+        z["skill"] = player_skills[key];
+        sorted.push(z);
+    }
+    sorted.sort(function(a, b) { return b.skill - a.skill; });
+
+    // Add them to teams
+    for (var i = 0; i < sorted.length; i++)
+    {
+        // If skill level of team1 == skill level of team2 AND same size
+        if (team1.get_team_score() == team2.get_team_score())
+        {
+            if (team1.get_size() == team2.get_size())
+            {
+                team1.add_player(sorted[i]);
+            }
+            else if (team1.get_size() > team2.get_size())
+            {
+                team2.add_player(sorted[i]);
+            }
+            else if (team2.get_size() > team1.get_size())
+            {
+                team1.add_player(sorted[i]);
+            }
+        }
+        // If skill level of team1 and team2 are different
+        else
+        {
+            // Add player to the team with the lowest score
+            if (team1.get_team_score() > team2.get_team_score())
+            {
+                team2.add_player(sorted[i])
+            }
+            else
+            {
+                team1.add_player(sorted[i]);
+            }
+        }
+    }
+
+    fs.readFile(DIR + '/results.html', function(err, data)
+    {
+        if (err)
+        {
+            res.sendStatus(404);
+        }
+        else
+        {
+            var template = handlebars.compile(data.toString());
+            var html = template({
+                "team1": team1.get_team(),
+                "team2": team2.get_team(),
+                "score1": team1.get_team_score(),
+                "score2": team2.get_team_score()
+            });
+            res.write(html);
+            res.end();
+        }
+    });
 });
 
 app.listen(PORT, function()

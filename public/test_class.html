@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>Class Test</title>
+</head>
+<body>
+</body>
+<script>
+
+class Team
+{
+    constructor(teamname)
+    {
+        this.players = [];
+        this.teamname = teamname;
+    }
+
+    get_team()
+    {
+        return this.players;
+    }
+
+    is_in_team(player)
+    {
+        for (var i = 0; i < this.players.length; i++)
+        {
+            if (this.players[i] == player)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    add_player(player)
+    {
+        if (!this.is_in_team(player))
+        {
+            this.players.push(player);
+            return true;
+        }
+
+        return false;
+    }
+
+    remove_player(player)
+    {
+        if (this.is_in_team(player))
+        {
+            this.players.splice(this.players.indexOf(player), 1);
+            return true;
+        }
+
+        return false;
+    }
+
+    get_size()
+    {
+        return this.players.length;
+    }
+}
+
+var t1 = new Team("ABC");
+t1.add_player("Bill");
+t1.add_player("James");
+console.log(t1.get_team());
+console.log(t1.get_size());
+console.log(t1.is_in_team("Bill"));
+console.log(t1.is_in_team("David"));
+
+</script>
+</html>

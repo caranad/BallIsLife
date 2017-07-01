@@ -1,1 +1,6 @@
-SECRET
+Bill: 1.5
+Dino: 1.5
+James: 2
+Mayank: 3
+Kevin: 1
+Aaron: 0.5
