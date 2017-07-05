@@ -213,28 +213,6 @@ app.post('/results', function(req, res)
     }
 });
 
-app.get('/results', function(req, res)
-{
-    res.send("<div align='center'>Unauthorized</div>");
-});
-
-app.get('/test', function(req,res)
-{
-    var team1 = new Team();
-    team1.add_player({"name": "A", "skill": 2});
-    team1.add_player({"name": "B", "skill": 4});
-    team1.add_player({"name": "C", "skill": 1});
-    team1.add_player({"name": "A", "skill": 2});
-
-    var s = "";
-    for (var i = 0; i < team1.get_team().length; i++)
-    {
-        s = s + team1.get_team()[i]['name'] + ",";
-    }
-
-    res.send(s);
-});
-
 app.listen(PORT, function()
 {
     console.log("BallIsLife generated at http://localhost:" + PORT);
