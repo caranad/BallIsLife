@@ -5,7 +5,10 @@ module.exports = {
         var items = s.split("\n");
         for (var i = 0; i < items.length; i++)
         {
-            players.push(items[i].substring(0, items[i].indexOf(":")));
+            if (items[i] != '')
+            {
+                players.push(items[i].substring(0, items[i].indexOf(":")));
+            }
         }
 
         return players;
@@ -30,7 +33,16 @@ module.exports = {
     filter_combos: function(pl, m)
     {
         var stringify_combos = [];
-        var combos = pl.filter(function(size) { return size.length == m});
+        var combos = pl.filter(function(size) {
+            if (m.length == 1)
+            {
+                return size.length == m[0];
+            }
+            else
+            {
+                return size.length == m[0] || size.length == m[1];
+            }
+        });
 
         for (var i = 0; i < combos.length; i++)
         {
@@ -49,9 +61,27 @@ module.exports = {
         for (var i = 0; i < arr.length; i++)
         {
             var z = arr[i].split(":");
-            player_skills[z[0]] = parseFloat(z[1]);
+
+            if (z[0] != '')
+            {
+                player_skills[z[0]] = parseFloat(z[1]);
+            }
         }
 
         return player_skills;
+    },
+
+    equal_skill_player: function(player, team)
+    {
+        for (var i = 0; i < team.get_team().length; i++)
+        {
+            console.log(player);
+            if (player['skill'] == team.get_team()[i]['skill'])
+            {
+                return team.get_team()[i]['name'];
+            }
+        }
+
+        return undefined;
     }
 }

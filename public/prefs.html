@@ -25,7 +25,7 @@
                 <h1>Preferences</h1>
 
                 <form action = "/results" method = "POST">
-                    <label class = "bold" for = "avoid_combos">Avoid these combinations:</label>
+                    <label class = "bold" for = "avoid_combos">Avoid these combinations (pick up to 3):</label>
                     <br>
                     {{#each combos}}
                         <input type = "checkbox" value = "{{this}}" name = "avoid">{{this}}</input>
