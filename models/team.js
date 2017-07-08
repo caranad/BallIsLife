@@ -46,7 +46,6 @@ class Team
                 if (this.players[i]['name'] == player)
                 {
                     index = i;
-                    console.log(index);
                     this.players.splice(index, 1);
                     return true;
                 }

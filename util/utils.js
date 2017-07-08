@@ -75,7 +75,6 @@ module.exports = {
     {
         for (var i = 0; i < team.get_team().length; i++)
         {
-            console.log(player);
             if (player['skill'] == team.get_team()[i]['skill'])
             {
                 return team.get_team()[i]['name'];

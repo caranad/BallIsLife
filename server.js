@@ -85,7 +85,6 @@ app.get('/upload', function(req, res)
 app.post('/results', function(req, res)
 {
     var avoid_combos = req.body.avoid;
-    console.log(avoid_combos);
     var player_skills = util.mappify(players);
     var team1 = new Team();
     var team2 = new Team();
@@ -180,11 +179,11 @@ app.post('/results', function(req, res)
                 {
                     for (var i = 0; i < pl_team.length; i++)
                     {
-                        var ptt = team2.get_player(avoid_combospl_team[i]);
+                        var ptt = team2.get_player(pl_team[i]);
                         var similar_player = util.equal_skill_player(ptt, team1);
                         if (similar_player != undefined)
                         {
-                            team2.trade(ptt, team2.get_player(similar_player), team1);
+                            team2.trade(ptt, team1.get_player(similar_player), team1);
                         }
                     }
                 }
