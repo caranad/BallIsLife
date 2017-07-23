@@ -172,6 +172,7 @@ app.post('/results', function(req, res)
                         if (similar_player != undefined)
                         {
                             team1.trade(ptt, team2.get_player(similar_player), team2);
+                            break;
                         }
                     }
                 }
@@ -184,6 +185,7 @@ app.post('/results', function(req, res)
                         if (similar_player != undefined)
                         {
                             team2.trade(ptt, team1.get_player(similar_player), team1);
+                            break;
                         }
                     }
                 }
